@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Netflix — New Releases</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #141414; color: #fff; font-family: 'Helvetica Neue', Arial, sans-serif; }
+    nav { position: fixed; top: 0; width: 100%; z-index: 100; background: rgba(0,0,0,0.95); padding: 18px 48px; display: flex; align-items: center; gap: 32px; }
+    .logo { color: #E50914; font-size: 28px; font-weight: 900; }
+    nav a { color: #e5e5e5; text-decoration: none; font-size: 14px; }
+    nav a:hover { color: #fff; }
+    .page-header { padding: 120px 48px 32px; background: linear-gradient(to bottom, #1a1500 0%, #141414 100%); }
+    .route-badge { background: #FF9800; color: #000; font-size: 11px; font-weight: 700; letter-spacing: 2px; padding: 3px 10px; border-radius: 3px; display: inline-block; margin-bottom: 12px; }
+    .page-header h1 { font-size: 42px; font-weight: 700; margin-bottom: 8px; }
+    .page-header p { color: #aaa; font-size: 15px; }
+    .infra-note { margin: 0 48px 32px; background: #1a1a1a; border-left: 3px solid #FF9800; border-radius: 6px; padding: 16px 20px; }
+    .infra-note h4 { font-size: 11px; color: #FF9800; letter-spacing: 1px; margin-bottom: 6px; }
+    .infra-note p { font-size: 12px; color: #aaa; line-height: 1.6; }
+    .week-section { padding: 16px 48px 32px; }
+    .week-label { font-size: 13px; color: #aaa; font-weight: 700; letter-spacing: 1px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid #2a2a2a; }
+    .list { display: flex; flex-direction: column; gap: 12px; }
+    .item { display: flex; align-items: center; gap: 20px; background: #1a1a1a; border-radius: 8px; padding: 16px; cursor: pointer; transition: background 0.2s; text-decoration: none; color: inherit; }
+    .item:hover { background: #222; }
+    .item-thumb { width: 80px; height: 56px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 28px; flex-shrink: 0; }
+    .item-info { flex: 1; }
+    .item-title { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .item-meta { font-size: 12px; color: #aaa; }
+    .new-badge { background: #46d369; color: #000; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 2px; }
+    .hot-badge { background: #E50914; color: #fff; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 2px; }
+    .coming-badge { background: #FF9800; color: #000; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 2px; }
+    footer { padding: 32px 48px; color: #555; font-size: 12px; }
+  </style>
+</head>
+<body>
+<nav>
+  <div class="logo">NETFLIX</div>
+  <a href="/">Home</a>
+  <a href="/trending">Trending</a>
+  <a href="/series">TV Series</a>
+  <a href="/movies">Movies</a>
+  <a href="/new" style="color:#fff;font-weight:700;">New Releases</a>
+</nav>
+
+<div class="page-header">
+  <div class="route-badge">ROUTE: /new → TG-new</div>
+  <h1>✨ New Releases</h1>
+  <p>Fresh content — just added this week</p>
+</div>
+
+<div class="infra-note">
+  <h4>⚙ ALB PATH-BASED ROUTING</h4>
+  <p>This page is served by the <strong>New Releases Target Group</strong> — dedicated EC2 in private subnet (AZ-1b). ALB matched path <strong>/new</strong> and routed here. Each section of Netflix runs on isolated servers — updates to New Releases never affect Movies or Series.</p>
+</div>
+
+<div class="week-section">
+  <div class="week-label">THIS WEEK</div>
+  <div class="list">
+    <a href="#" class="item">
+      <div class="item-thumb" style="background:linear-gradient(135deg,#004d40,#1b5e20);">🌿</div>
+      <div class="item-info">
+        <div class="item-title">Our Planet II <span class="new-badge">NEW</span></div>
+        <div class="item-meta">Documentary · 4 Episodes · May 2026</div>
+      </div>
+    </a>
+    <a href="#" class="item">
+      <div class="item-thumb" style="background:linear-gradient(135deg,#4a148c,#7b1fa2);">👁</div>
+      <div class="item-info">
+        <div class="item-title">Black Mirror S7 <span class="hot-badge">HOT</span></div>
+        <div class="item-meta">Sci-Fi · Anthology · May 2026</div>
+      </div>
+    </a>
+    <a href="#" class="item">
+      <div class="item-thumb" style="background:linear-gradient(135deg,#b71c1c,#c62828);">🔪</div>
+      <div class="item-info">
+        <div class="item-title">Knives Out 3 <span class="new-badge">NEW</span></div>
+        <div class="item-meta">Mystery · Movie · 2h 8m</div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<div class="week-section">
+  <div class="week-label">COMING SOON</div>
+  <div class="list">
+    <a href="#" class="item">
+      <div class="item-thumb" style="background:linear-gradient(135deg,#e65100,#ff6f00);">🤖</div>
+      <div class="item-info">
+        <div class="item-title">Westworld S5 <span class="coming-badge">JUNE</span></div>
+        <div class="item-meta">Sci-Fi · Drama · 8 Episodes</div>
+      </div>
+    </a>
+    <a href="#" class="item">
+      <div class="item-thumb" style="background:linear-gradient(135deg,#1565c0,#1976D2);">🌊</div>
+      <div class="item-info">
+        <div class="item-title">The Last of Us S3 <span class="coming-badge">JULY</span></div>
+        <div class="item-meta">Drama · Post-Apocalyptic</div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<footer>© 2026 Netflix Clone — Server: New Releases EC2 | ALB Route: /new → TG-new | Port: 80</footer>
+</body>
+</html>

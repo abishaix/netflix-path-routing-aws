@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Netflix — Trending Now</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #141414; color: #fff; font-family: 'Helvetica Neue', Arial, sans-serif; }
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      background: rgba(0,0,0,0.95); padding: 18px 48px;
+      display: flex; align-items: center; gap: 32px;
+    }
+    .logo { color: #E50914; font-size: 28px; font-weight: 900; letter-spacing: -1px; }
+    nav a { color: #e5e5e5; text-decoration: none; font-size: 14px; transition: color 0.2s; }
+    nav a:hover { color: #fff; }
+    .page-header {
+      padding: 120px 48px 32px;
+      background: linear-gradient(to bottom, #1a0000 0%, #141414 100%);
+    }
+    .route-badge {
+      background: #E50914; color: #fff; font-size: 11px; font-weight: 700;
+      letter-spacing: 2px; padding: 3px 10px; border-radius: 3px;
+      display: inline-block; margin-bottom: 12px;
+    }
+    .page-header h1 { font-size: 42px; font-weight: 700; margin-bottom: 8px; }
+    .page-header p { color: #aaa; font-size: 15px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; padding: 32px 48px; }
+    .card { border-radius: 6px; overflow: hidden; cursor: pointer; transition: transform 0.2s; text-decoration: none; color: inherit; }
+    .card:hover { transform: scale(1.05); }
+    .card-img { height: 280px; display: flex; align-items: center; justify-content: center; font-size: 48px; }
+    .card-body { background: #1a1a1a; padding: 10px 12px; }
+    .card-title { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+    .card-meta { font-size: 11px; color: #aaa; }
+    .match { color: #46d369; font-weight: 700; font-size: 12px; margin-bottom: 4px; }
+    .infra-note {
+      margin: 0 48px 32px; background: #1a1a1a; border-left: 3px solid #E50914;
+      border-radius: 6px; padding: 16px 20px;
+    }
+    .infra-note h4 { font-size: 11px; color: #E50914; letter-spacing: 1px; margin-bottom: 6px; }
+    .infra-note p { font-size: 12px; color: #aaa; line-height: 1.6; }
+    footer { padding: 32px 48px; color: #555; font-size: 12px; }
+  </style>
+</head>
+<body>
+<nav>
+  <div class="logo">NETFLIX</div>
+  <a href="/">Home</a>
+  <a href="/trending" style="color:#fff;font-weight:700;">Trending</a>
+  <a href="/series">TV Series</a>
+  <a href="/movies">Movies</a>
+  <a href="/new">New Releases</a>
+</nav>
+
+<div class="page-header">
+  <div class="route-badge">ROUTE: /trending → TG-trending</div>
+  <h1>🔥 Trending Now</h1>
+  <p>What everyone is watching right now — updated daily</p>
+</div>
+
+<div class="infra-note">
+  <h4>⚙ ALB PATH-BASED ROUTING</h4>
+  <p>This page is served by the <strong>Trending Target Group</strong> — a dedicated EC2 in a private subnet (AZ-1a). The ALB Listener matched path <strong>/trending</strong> and forwarded here. The homepage runs on a completely separate server.</p>
+</div>
+
+<div class="grid">
+  <a href="#" class="card">
+    <div class="card-img" style="background:linear-gradient(135deg,#7b1fa2,#4a148c);">🎭</div>
+    <div class="card-body"><div class="match">97% Match</div><div class="card-title">Wednesday</div><div class="card-meta">Fantasy · 2023</div></div>
+  </a>
+  <a href="#" class="card">
+    <div class="card-img" style="background:linear-gradient(135deg,#e65100,#bf360c);">⚡</div>
+    <div class="card-body"><div class="match">95% Match</div><div class="card-title">Extraction 2</div><div class="card-meta">Action · Movie</div></div>
+  </a>
+  <a href="#" class="card">
+    <div class="card-img" style="background:linear-gradient(135deg,#004d40,#00251a);">🎯</div>
+    <div class="card-body"><div class="match">99% Match</div><div class="card-title">Squid Game S2</div><div class="card-meta">Thriller · 2024</div></div>
+  </a>
+  <a href="#" class="card">
+    <div class="card-img" style="background:linear-gradient(135deg,#37474f,#263238);">🕵️</div>
+    <div class="card-body"><div class="match">92% Match</div><div class="card-title">Mindhunter</div><div class="card-meta">Crime · Drama</div></div>
+  </a>
+  <a href="#" class="card">
+    <div class="card-img" style="background:linear-gradient(135deg,#880e4f,#560027);">💀</div>
+    <div class="card-body"><div class="match">88% Match</div><div class="card-title">The Haunting</div><div class="card-meta">Horror · Series</div></div>
+  </a>
+  <a href="#" class="card">
+    <div class="card-img" style="background:linear-gradient(135deg,#1a237e,#0d47a1);">🚀</div>
+    <div class="card-body"><div class="match">91% Match</div><div class="card-title">Altered Carbon</div><div class="card-meta">Sci-Fi · Series</div></div>
+  </a>
+  <a href="#" class="card">
+    <div class="card-img" style="background:linear-gradient(135deg,#b71c1c,#1a1a1a);">🧟</div>
+    <div class="card-body"><div class="match">96% Match</div><div class="card-title">Stranger Things</div><div class="card-meta">Sci-Fi · Horror</div></div>
+  </a>
+  <a href="#" class="card">
+    <div class="card-img" style="background:linear-gradient(135deg,#f57f17,#e65100);">⚗️</div>
+    <div class="card-body"><div class="match">98% Match</div><div class="card-title">Breaking Bad</div><div class="card-meta">Crime · Drama</div></div>
+  </a>
+</div>
+
+<footer>© 2026 Netflix Clone — Server: Trending EC2 | ALB Route: /trending → TG-trending | Port: 80</footer>
+</body>
+</html>

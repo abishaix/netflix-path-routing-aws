@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Netflix — TV Series</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #141414; color: #fff; font-family: 'Helvetica Neue', Arial, sans-serif; }
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      background: rgba(0,0,0,0.95); padding: 18px 48px;
+      display: flex; align-items: center; gap: 32px;
+    }
+    .logo { color: #E50914; font-size: 28px; font-weight: 900; }
+    nav a { color: #e5e5e5; text-decoration: none; font-size: 14px; }
+    nav a:hover { color: #fff; }
+    .page-header { padding: 120px 48px 32px; background: linear-gradient(to bottom, #001a0d 0%, #141414 100%); }
+    .route-badge { background: #46d369; color: #000; font-size: 11px; font-weight: 700; letter-spacing: 2px; padding: 3px 10px; border-radius: 3px; display: inline-block; margin-bottom: 12px; }
+    .page-header h1 { font-size: 42px; font-weight: 700; margin-bottom: 8px; }
+    .page-header p { color: #aaa; font-size: 15px; }
+    .filters { padding: 0 48px 24px; display: flex; gap: 8px; flex-wrap: wrap; }
+    .filter-btn { background: #2a2a2a; border: 1px solid #444; color: #e5e5e5; padding: 6px 16px; border-radius: 4px; font-size: 13px; cursor: pointer; }
+    .filter-btn:hover, .filter-btn.active { background: #fff; color: #000; border-color: #fff; }
+    .section { padding: 16px 48px 32px; }
+    .section h2 { font-size: 20px; font-weight: 700; margin-bottom: 16px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; }
+    .card { border-radius: 6px; overflow: hidden; cursor: pointer; transition: transform 0.2s; text-decoration: none; color: inherit; }
+    .card:hover { transform: scale(1.05); }
+    .card-img { height: 260px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 44px; gap: 6px; }
+    .card-body { background: #1a1a1a; padding: 10px 12px; }
+    .card-title { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
+    .card-meta { font-size: 11px; color: #aaa; margin-bottom: 3px; }
+    .seasons { font-size: 11px; color: #46d369; }
+    .infra-note { margin: 0 48px 24px; background: #1a1a1a; border-left: 3px solid #46d369; border-radius: 6px; padding: 16px 20px; }
+    .infra-note h4 { font-size: 11px; color: #46d369; letter-spacing: 1px; margin-bottom: 6px; }
+    .infra-note p { font-size: 12px; color: #aaa; line-height: 1.6; }
+    footer { padding: 32px 48px; color: #555; font-size: 12px; }
+  </style>
+</head>
+<body>
+<nav>
+  <div class="logo">NETFLIX</div>
+  <a href="/">Home</a>
+  <a href="/trending">Trending</a>
+  <a href="/series" style="color:#fff;font-weight:700;">TV Series</a>
+  <a href="/movies">Movies</a>
+  <a href="/new">New Releases</a>
+</nav>
+
+<div class="page-header">
+  <div class="route-badge">ROUTE: /series → TG-series</div>
+  <h1>📺 TV Series</h1>
+  <p>Binge-worthy shows — from drama to sci-fi to crime</p>
+</div>
+
+<div class="infra-note">
+  <h4>⚙ ALB PATH-BASED ROUTING</h4>
+  <p>This page is served by the <strong>Series Target Group</strong> — dedicated EC2 in private subnet (AZ-1b). ALB matched path <strong>/series</strong> and routed here independently of other pages. If this server goes down, Trending, Movies, and New Releases continue serving normally.</p>
+</div>
+
+<div class="filters">
+  <button class="filter-btn active">All</button>
+  <button class="filter-btn">Drama</button>
+  <button class="filter-btn">Crime</button>
+  <button class="filter-btn">Sci-Fi</button>
+  <button class="filter-btn">Horror</button>
+  <button class="filter-btn">Comedy</button>
+  <button class="filter-btn">Fantasy</button>
+</div>
+
+<div class="section">
+  <h2>Crime & Thriller</h2>
+  <div class="grid">
+    <a href="#" class="card">
+      <div class="card-img" style="background:linear-gradient(135deg,#f57f17,#e65100);">⚗️</div>
+      <div class="card-body"><div class="card-title">Breaking Bad</div><div class="card-meta">Crime · Drama</div><div class="seasons">5 Seasons</div></div>
+    </a>
+    <a href="#" class="card">
+      <div class="card-img" style="background:linear-gradient(135deg,#1565c0,#0d47a1);">💰</div>
+      <div class="card-body"><div class="card-title">Ozark</div><div class="card-meta">Crime · Thriller</div><div class="seasons">4 Seasons</div></div>
+    </a>
+    <a href="#" class="card">
+      <div class="card-img" style="background:linear-gradient(135deg,#212121,#424242);">💊</div>
+      <div class="card-body"><div class="card-title">Narcos</div><div class="card-meta">Crime · Biography</div><div class="seasons">3 Seasons</div></div>
+    </a>
+    <a href="#" class="card">
+      <div class="card-img" style="background:linear-gradient(135deg,#37474f,#263238);">🕵️</div>
+      <div class="card-body"><div class="card-title">Mindhunter</div><div class="card-meta">Crime · Drama</div><div class="seasons">2 Seasons</div></div>
+    </a>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Sci-Fi & Fantasy</h2>
+  <div class="grid">
+    <a href="#" class="card">
+      <div class="card-img" style="background:linear-gradient(135deg,#b71c1c,#1a1a1a);">🧟</div>
+      <div class="card-body"><div class="card-title">Stranger Things</div><div class="card-meta">Sci-Fi · Horror</div><div class="seasons">4 Seasons</div></div>
+    </a>
+    <a href="#" class="card">
+      <div class="card-img" style="background:linear-gradient(135deg,#1a237e,#0d47a1);">🚀</div>
+      <div class="card-body"><div class="card-title">Altered Carbon</div><div class="card-meta">Sci-Fi · Noir</div><div class="seasons">2 Seasons</div></div>
+    </a>
+    <a href="#" class="card">
+      <div class="card-img" style="background:linear-gradient(135deg,#4a148c,#7b1fa2);">🐉</div>
+      <div class="card-body"><div class="card-title">The Witcher</div><div class="card-meta">Fantasy · Action</div><div class="seasons">3 Seasons</div></div>
+    </a>
+    <a href="#" class="card">
+      <div class="card-img" style="background:linear-gradient(135deg,#004d40,#00251a);">🎯</div>
+      <div class="card-body"><div class="card-title">Squid Game</div><div class="card-meta">Thriller · Drama</div><div class="seasons">2 Seasons</div></div>
+    </a>
+  </div>
+</div>
+
+<footer>© 2026 Netflix Clone — Server: Series EC2 | ALB Route: /series → TG-series | Port: 80</footer>
+</body>
+</html>

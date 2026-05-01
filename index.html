@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Netflix — What to Watch</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #141414; color: #fff; font-family: 'Helvetica Neue', Arial, sans-serif; }
+
+    nav {
+      position: fixed; top: 0; width: 100%; z-index: 100;
+      background: linear-gradient(to bottom, #000 0%, transparent 100%);
+      padding: 18px 48px;
+      display: flex; align-items: center; gap: 32px;
+    }
+    .logo { color: #E50914; font-size: 28px; font-weight: 900; letter-spacing: -1px; }
+    nav a {
+      color: #e5e5e5; text-decoration: none; font-size: 14px;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: #fff; }
+
+    .hero {
+      height: 85vh;
+      background: linear-gradient(to right, rgba(0,0,0,0.85) 40%, transparent),
+                  linear-gradient(to top, #141414 0%, transparent 60%),
+                  url('https://images.unsplash.com/photo-1585647347483-22b66260dfff?w=1600&q=80') center/cover;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 0 48px;
+    }
+    .hero-badge { background: #E50914; color: #fff; font-size: 11px; font-weight: 700;
+      letter-spacing: 2px; padding: 3px 10px; border-radius: 3px; display: inline-block; margin-bottom: 16px; }
+    .hero h1 { font-size: 56px; font-weight: 700; line-height: 1.1; max-width: 600px; margin-bottom: 16px; }
+    .hero p { font-size: 18px; color: #d2d2d2; max-width: 500px; margin-bottom: 28px; line-height: 1.6; }
+    .hero-btns { display: flex; gap: 12px; }
+    .btn-play {
+      background: #fff; color: #000; border: none; padding: 12px 28px;
+      font-size: 16px; font-weight: 700; border-radius: 4px; cursor: pointer;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .btn-info {
+      background: rgba(109,109,110,0.7); color: #fff; border: none; padding: 12px 28px;
+      font-size: 16px; font-weight: 700; border-radius: 4px; cursor: pointer;
+      display: flex; align-items: center; gap: 8px;
+    }
+
+    .section { padding: 32px 48px; }
+    .section h2 { font-size: 22px; font-weight: 700; margin-bottom: 16px; }
+
+    .row { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; }
+    .row::-webkit-scrollbar { height: 4px; }
+    .row::-webkit-scrollbar-thumb { background: #555; border-radius: 2px; }
+
+    .card {
+      min-width: 200px; border-radius: 6px; overflow: hidden;
+      cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none; color: inherit;
+      display: block;
+    }
+    .card:hover { transform: scale(1.06); box-shadow: 0 8px 32px rgba(0,0,0,0.6); z-index: 1; }
+    .card img { width: 200px; height: 280px; object-fit: cover; display: block; background: #2a2a2a; }
+    .card-placeholder {
+      width: 200px; height: 280px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      font-size: 40px; gap: 8px;
+    }
+    .card-label { padding: 8px 10px; font-size: 13px; font-weight: 600; background: #1a1a1a; }
+    .card-sub { padding: 0 10px 8px; font-size: 11px; color: #aaa; background: #1a1a1a; }
+
+    .category-nav {
+      display: flex; gap: 8px; flex-wrap: wrap; padding: 0 48px 24px;
+    }
+    .cat-btn {
+      background: #2a2a2a; color: #e5e5e5; border: 1px solid #444;
+      padding: 8px 20px; border-radius: 20px; font-size: 13px; font-weight: 600;
+      cursor: pointer; text-decoration: none; transition: background 0.2s;
+    }
+    .cat-btn:hover, .cat-btn.active { background: #E50914; border-color: #E50914; color: #fff; }
+
+    footer { padding: 48px; color: #757575; font-size: 13px; line-height: 2; }
+    .footer-logo { color: #E50914; font-size: 20px; font-weight: 900; margin-bottom: 16px; }
+
+    .badge-new { background: #46d369; color: #000; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 2px; margin-left: 6px; }
+    .badge-hot { background: #E50914; color: #fff; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 2px; margin-left: 6px; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">NETFLIX</div>
+  <a href="/">Home</a>
+  <a href="/trending">Trending</a>
+  <a href="/series">TV Series</a>
+  <a href="/movies">Movies</a>
+  <a href="/new">New Releases</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-badge">N ORIGINAL</div>
+  <h1>Stranger Things</h1>
+  <p>When a young boy vanishes, a small town uncovers a mystery involving secret experiments, terrifying supernatural forces, and one strange little girl.</p>
+  <div class="hero-btns">
+    <button class="btn-play">▶ Play</button>
+    <button class="btn-info">ℹ More Info</button>
+  </div>
+</div>
+
+<div style="padding: 0 48px 8px;">
+  <div class="category-nav" style="padding: 0; margin-top: 24px;">
+    <a href="/" class="cat-btn active">Home</a>
+    <a href="/trending" class="cat-btn">🔥 Trending</a>
+    <a href="/series" class="cat-btn">📺 TV Series</a>
+    <a href="/movies" class="cat-btn">🎬 Movies</a>
+    <a href="/new" class="cat-btn">✨ New Releases</a>
+  </div>
+</div>
+
+<div class="section">
+  <h2>Continue Watching</h2>
+  <div class="row">
+    <a href="/series" class="card">
+      <div class="card-placeholder" style="background: linear-gradient(135deg,#1a1a2e,#16213e);">🦸 <span style="font-size:13px;color:#aaa">Superhero</span></div>
+      <div class="card-label">The Witcher <span class="badge-new">NEW</span></div>
+      <div class="card-sub">Fantasy · S3 E5</div>
+    </a>
+    <a href="/movies" class="card">
+      <div class="card-placeholder" style="background: linear-gradient(135deg,#2d1b69,#11998e);">🎬 <span style="font-size:13px;color:#aaa">Sci-Fi</span></div>
+      <div class="card-label">Interstellar</div>
+      <div class="card-sub">Movie · 2h 49m</div>
+    </a>
+    <a href="/series" class="card">
+      <div class="card-placeholder" style="background: linear-gradient(135deg,#e53935,#1a1a1a);">👑 <span style="font-size:13px;color:#aaa">Drama</span></div>
+      <div class="card-label">The Crown</div>
+      <div class="card-sub">Drama · S6 E2</div>
+    </a>
+    <a href="/trending" class="card">
+      <div class="card-placeholder" style="background: linear-gradient(135deg,#1565c0,#0d47a1);">🔬 <span style="font-size:13px;color:#aaa">Thriller</span></div>
+      <div class="card-label">Ozark <span class="badge-hot">HOT</span></div>
+      <div class="card-sub">Crime · S4 E7</div>
+    </a>
+    <a href="/new" class="card">
+      <div class="card-placeholder" style="background: linear-gradient(135deg,#2e7d32,#1b5e20);">🌿 <span style="font-size:13px;color:#aaa">Adventure</span></div>
+      <div class="card-label">Our Planet II</div>
+      <div class="card-sub">Documentary · New</div>
+    </a>
+  </div>
+</div>
+
+<div class="section">
+  <h2>🔥 Trending Now <a href="/trending" style="font-size:13px;color:#aaa;margin-left:12px;text-decoration:none;">See all ›</a></h2>
+  <div class="row">
+    <a href="/trending" class="card">
+      <div class="card-placeholder" style="background: linear-gradient(135deg,#7b1fa2,#4a148c);">🎭 <span style="font-size:13px;color:#aaa">Mystery</span></div>
+      <div class="card-label">Wednesday</div>
+      <div class="card-sub">Fantasy · Comedy</div>
+    </a>
+    <a href="/trending" class="card">
+      <div class="card-placeholder" style="background: linear-gradient(135deg,#e65100,#bf360c);">⚡ <span style="font-size:13px;color:#aaa">Action</span></div>
+      <div class="card-label">Extraction 2</div>
+      <div class="card-sub">Action · Movie</div>
+    </a>
+    <a href="/trending" class="card">
+      <div class="card-placeholder" style="background: linear-gradient(135deg,#37474f,#263238);">🕵️ <span style="font-size:13px;color:#aaa">Crime</span></div>
+      <div class="card-label">Mindhunter</div>
+      <div class="card-sub">Crime · Drama</div>
+    </a>
+    <a href="/trending" class="card">
+      <div class="card-placeholder" style="background: linear-gradient(135deg,#880e4f,#560027);">💀 <span style="font-size:13px;color:#aaa">Horror</span></div>
+      <div class="card-label">The Haunting</div>
+      <div class="card-sub">Horror · Series</div>
+    </a>
+    <a href="/trending" class="card">
+      <div class="card-placeholder" style="background: linear-gradient(135deg,#1a237e,#0d47a1);">🚀 <span style="font-size:13px;color:#aaa">Sci-Fi</span></div>
+      <div class="card-label">Altered Carbon</div>
+      <div class="card-sub">Sci-Fi · Series</div>
+    </a>
+  </div>
+</div>
+
+<div class="section">
+  <h2>📺 Popular Series <a href="/series" style="font-size:13px;color:#aaa;margin-left:12px;text-decoration:none;">See all ›</a></h2>
+  <div class="row">
+    <a href="/series" class="card">
+      <div class="card-placeholder" style="background: linear-gradient(135deg,#b71c1c,#1a1a1a);">🧟 <span style="font-size:13px;color:#aaa">Horror</span></div>
+      <div class="card-label">Stranger Things</div>
+      <div class="card-sub">Sci-Fi · 4 Seasons</div>
+    </a>
+    <a href="/series" class="card">
+      <div class="card-placeholder" style="background: linear-gradient(135deg,#f57f17,#e65100);">⚗️ <span style="font-size:13px;color:#aaa">Crime</span></div>
+      <div class="card-label">Breaking Bad</div>
+      <div class="card-sub">Crime · 5 Seasons</div>
+    </a>
+    <a href="/series" class="card">
+      <div class="card-placeholder" style="background: linear-gradient(135deg,#004d40,#00251a);">🎯 <span style="font-size:13px;color:#aaa">Thriller</span></div>
+      <div class="card-label">Squid Game</div>
+      <div class="card-sub">Thriller · 2 Seasons</div>
+    </a>
+    <a href="/series" class="card">
+      <div class="card-placeholder" style="background: linear-gradient(135deg,#212121,#424242);">💊 <span style="font-size:13px;color:#aaa">Drama</span></div>
+      <div class="card-label">Narcos</div>
+      <div class="card-sub">Crime · 3 Seasons</div>
+    </a>
+    <a href="/series" class="card">
+      <div class="card-placeholder" style="background: linear-gradient(135deg,#1b5e20,#33691e);">🌵 <span style="font-size:13px;color:#aaa">Western</span></div>
+      <div class="card-label">Longmire</div>
+      <div class="card-sub">Western · 6 Seasons</div>
+    </a>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">NETFLIX</div>
+  <p>Served via AWS Application Load Balancer — Path-Based Routing</p>
+  <p style="margin-top:8px;font-size:11px;">Route: / → Homepage TG | /trending → Trending TG | /series → Series TG | /movies → Movies TG | /new → New TG</p>
+  <p style="margin-top:16px;">© 2026 Netflix Clone — Built for AWS ALB Path-Based Routing Lab</p>
+</footer>
+
+</body>
+</html>
