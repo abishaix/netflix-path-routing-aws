@@ -10,7 +10,7 @@ Built as a hands-on project during **DevOps Bootcamp** to demonstrate real-world
 
 ## 🎬 The App
 
-![Homepage](screenshots/Screenshot_2026-05-01_at_8_48_05PM.png)
+![Homepage](screenshots/Screenshot_2026-05-01_at_8.48.05PM.png)
 
 A fully functional Netflix clone with 5 independently deployed sections, each served by a dedicated EC2 instance in a private subnet — routed by a single Application Load Balancer.
 
@@ -69,37 +69,37 @@ User → ALB DNS (alb-netflix-521888888.ap-south-1.elb.amazonaws.com)
 ## 📸 Screenshots
 
 ### VPC Resource Map
-![VPC](screenshots/Screenshot_2026-05-01_at_8_47_08PM.png)
+![VPC](screenshots/Screenshot_2026-05-01_at_8.47.08PM.png)
 
 ### Subnets — 3 Public + 3 Private across 3 AZs
-![Subnets](screenshots/Screenshot_2026-05-01_at_8_45_17PM.png)
+![Subnets](screenshots/Screenshot_2026-05-01_at_8.45.17PM.png)
 
 ### EC2 Instances — All 6 Running
-![EC2 Instances](screenshots/Screenshot_2026-05-01_at_8_47_48PM.png)
+![EC2 Instances](screenshots/Screenshot_2026-05-01_at_8.47.48PM.png)
 
 ### Target Groups — All 5
-![Target Groups](screenshots/Screenshot_2026-05-01_at_8_47_32PM.png)
+![Target Groups](screenshots/Screenshot_2026-05-01_at_8.47.32PM.png)
 
 ### ALB Details — Active, 3 AZs
-![ALB Details](screenshots/Screenshot_2026-05-01_at_8_47_14PM.png)
+![ALB Details](screenshots/Screenshot_2026-05-01_at_8.47.14PM.png)
 
 ### ALB Listener Rules — Path-Based Routing
-![Listener Rules](screenshots/Screenshot_2026-05-01_at_8_37_48PM.png)
+![Listener Rules](screenshots/Screenshot_2026-05-01_at_8.37.48PM.png)
 
 ### Homepage — Served via TG-home
-![Homepage](screenshots/Screenshot_2026-05-01_at_8_48_05PM.png)
+![Homepage](screenshots/Screenshot_2026-05-01_at_8.48.05PM.png)
 
 ### Trending — Route: /trending → TG-trending
-![Trending](screenshots/Screenshot_2026-05-01_at_8_48_30PM.png)
+![Trending](screenshots/Screenshot_2026-05-01_at_8.48.30PM.png)
 
 ### TV Series — Route: /series → TG-series
-![TV Series](screenshots/Screenshot_2026-05-01_at_8_48_43PM.png)
+![TV Series](screenshots/Screenshot_2026-05-01_at_8.48.43PM.png)
 
 ### Movies — Route: /movies → TG-movies
-![Movies](screenshots/Screenshot_2026-05-01_at_8_48_57PM.png)
+![Movies](screenshots/Screenshot_2026-05-01_at_8.48.57PM.png)
 
 ### New Releases — Route: /new → TG-new
-![New Releases](screenshots/Screenshot_2026-05-01_at_8_49_09PM.png)
+![New Releases](screenshots/Screenshot_2026-05-01_at_8.49.09PM.png)
 
 ---
 
