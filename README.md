@@ -2,69 +2,108 @@
 
 A Netflix-inspired multi-service web app deployed on AWS using Application Load Balancer path-based routing. Each section of the site runs on a **dedicated private EC2 server** — traffic is routed by the ALB based on the URL path.
 
-Built as a hands-on project for the **DevOps Bootcamp** to demonstrate real-world ALB architecture.
+Built as a hands-on project during **DevOps Bootcamp** to demonstrate real-world ALB path-based routing architecture on AWS.
+
+> **Live demo was running at:** `http://alb-netflix-521888888.ap-south-1.elb.amazonaws.com`
+
+---
+
+## 🎬 The App
+
+![Homepage](screenshots/Screenshot_2026-05-01_at_8_48_05PM.png)
+
+A fully functional Netflix clone with 5 independently deployed sections, each served by a dedicated EC2 instance in a private subnet — routed by a single Application Load Balancer.
 
 ---
 
 ## 🏗️ Architecture
 
+![Architecture Diagram](diagrams/Netflix-Path-Routing-AWS-v2.drawio.svg)
+
 ```
-User → walmart.com (or ALB DNS)
+User → ALB DNS (alb-netflix-521888888.ap-south-1.elb.amazonaws.com)
            │
            ▼
-    Internet Gateway
-           │
-           ▼
-  Application Load Balancer
-  (internet-facing, spans 2 AZs)
+  Application Load Balancer (internet-facing)
+  Spans: ap-south-1a + ap-south-1b + ap-south-1c
            │
     ┌──────┼──────┬──────────┬────────────┐
     ▼      ▼      ▼          ▼            ▼
-  path:/ path:/trending path:/series path:/movies path:/new
+  path:/  /trending /series  /movies    /new
     │      │      │          │            │
-    ▼      ▼      ▼          ▼            ▼
- TG-home TG-trending TG-series TG-movies TG-new
+  TG-home TG-trending TG-series TG-movies TG-new
     │      │      │          │            │
-    ▼      ▼      ▼          ▼            ▼
- EC2-1  EC2-2  EC2-3      EC2-4        EC2-5
-(Nginx) (Nginx)(Nginx)   (Nginx)      (Nginx)
-private private private   private      private
-subnet  subnet  subnet    subnet       subnet
+  EC2-1  EC2-2  EC2-3      EC2-4        EC2-5
+  AZ-1a  AZ-1b  AZ-1b      AZ-1c        AZ-1c
 ```
 
 ---
 
 ## 📋 AWS Resources
 
-| Resource | Details |
-|---|---|
-| VPC | Custom — 10.0.0.0/16 |
-| Public Subnets | 2 — one per AZ (for ALB nodes) |
-| Private Subnets | 2 — one per AZ (for app servers) |
-| Internet Gateway | Attached to VPC |
-| NAT Gateway | Regional — private servers can install packages |
-| Security Group (public) | Port 80 + 22 inbound |
-| Security Group (private) | Port 80 from public SG only |
-| EC2 Instances | 5x t3.micro — Nginx on each |
-| Target Groups | 5 — one per service |
-| ALB | Internet-facing, HTTP:80 |
-| ALB Listener Rules | 4 path rules + 1 default |
+| Resource | Name | Details |
+|---|---|---|
+| VPC | netflix-vpc | 10.0.0.0/16 |
+| Public Subnets | 3 | 1a, 1b, 1c — for ALB nodes |
+| Private Subnets | 3 | 1a, 1b, 1c — for app servers |
+| Internet Gateway | netflix-igw | Attached to VPC |
+| NAT Gateway | netflix-regional-nat | Regional mode — all AZs |
+| EC2 Instances | 6 | 1 bastion + 5 app servers (t3.micro) |
+| Target Groups | 5 | tg-home, tg-trending, tg-series, tg-movies, tg-new |
+| Load Balancer | alb-netflix | Application, internet-facing, HTTP:80 |
 
 ---
 
 ## 🎬 Services & Routing Rules
 
-| Path | Target Group | Server | Content |
-|---|---|---|---|
-| `/` (default) | TG-home | EC2-home | Homepage — all sections |
-| `/trending` | TG-trending | EC2-trending | Trending Now |
-| `/series` | TG-series | EC2-series | TV Series |
-| `/movies` | TG-movies | EC2-movies | Movies |
-| `/new` | TG-new | EC2-new | New Releases |
+| Path | Target Group | EC2 | AZ | Content |
+|---|---|---|---|---|
+| `/` (default) | tg-home | ec2-1-home | ap-south-1a | Homepage |
+| `/trending` | tg-trending | ec2-2-trending | ap-south-1b | Trending Now |
+| `/series` | tg-series | ec2-3-series | ap-south-1b | TV Series |
+| `/movies` | tg-movies | ec2-4-movies | ap-south-1c | Movies |
+| `/new` | tg-new | ec2-5-new | ap-south-1c | New Releases |
 
 ---
 
-## 🚀 Deployment
+## 📸 Screenshots
+
+### VPC Resource Map
+![VPC](screenshots/Screenshot_2026-05-01_at_8_47_08PM.png)
+
+### Subnets — 3 Public + 3 Private across 3 AZs
+![Subnets](screenshots/Screenshot_2026-05-01_at_8_45_17PM.png)
+
+### EC2 Instances — All 6 Running
+![EC2 Instances](screenshots/Screenshot_2026-05-01_at_8_47_48PM.png)
+
+### Target Groups — All 5
+![Target Groups](screenshots/Screenshot_2026-05-01_at_8_47_32PM.png)
+
+### ALB Details — Active, 3 AZs
+![ALB Details](screenshots/Screenshot_2026-05-01_at_8_47_14PM.png)
+
+### ALB Listener Rules — Path-Based Routing
+![Listener Rules](screenshots/Screenshot_2026-05-01_at_8_37_48PM.png)
+
+### Homepage — Served via TG-home
+![Homepage](screenshots/Screenshot_2026-05-01_at_8_48_05PM.png)
+
+### Trending — Route: /trending → TG-trending
+![Trending](screenshots/Screenshot_2026-05-01_at_8_48_30PM.png)
+
+### TV Series — Route: /series → TG-series
+![TV Series](screenshots/Screenshot_2026-05-01_at_8_48_43PM.png)
+
+### Movies — Route: /movies → TG-movies
+![Movies](screenshots/Screenshot_2026-05-01_at_8_48_57PM.png)
+
+### New Releases — Route: /new → TG-new
+![New Releases](screenshots/Screenshot_2026-05-01_at_8_49_09PM.png)
+
+---
+
+## 🚀 Deployment Guide
 
 ### Step 1 — Clone this repo
 ```bash
@@ -72,17 +111,21 @@ git clone https://github.com/abishaix/netflix-path-routing-aws.git
 cd netflix-path-routing-aws
 ```
 
-### Step 2 — Build AWS infrastructure
-1. Create VPC with 2 public + 2 private subnets across 2 AZs
-2. Attach Internet Gateway, create NAT Gateway
-3. Configure route tables (public → IGW, private → NAT)
-4. Create Security Groups
-5. Launch 5 EC2 instances (t3.micro) in private subnets
+### Step 2 — Build AWS Infrastructure
+1. Create VPC `10.0.0.0/16` with 3 public + 3 private subnets across 3 AZs
+2. Attach Internet Gateway
+3. Create Regional NAT Gateway in a public subnet
+4. Configure route tables — public subnets → IGW, private subnets → NAT
+5. Create Security Groups
 
-### Step 3 — Deploy content to each server
+### Step 3 — Launch EC2 Instances
+- 1 Bastion Host (public subnet, public IP enabled)
+- 5 App servers (private subnets, no public IP)
+- All t3.micro, Amazon Linux 2023
 
-SSH into each server via bastion host, then:
+### Step 4 — Deploy Content to Each Server
 
+SSH via bastion, then on each server:
 ```bash
 sudo su -
 yum install nginx -y
@@ -90,71 +133,70 @@ systemctl start nginx
 systemctl enable nginx
 ```
 
-**Home server:**
+Deploy content:
 ```bash
-cp index.html /usr/share/nginx/html/index.html
-systemctl restart nginx
-```
+# Home server
+vi /usr/share/nginx/html/index.html
 
-**Trending server:**
-```bash
+# Trending server
 mkdir /usr/share/nginx/html/trending
-cp trending/index.html /usr/share/nginx/html/trending/index.html
-systemctl restart nginx
-```
+vi /usr/share/nginx/html/trending/index.html
 
-Repeat for `/series`, `/movies`, `/new`.
+# Series server
+mkdir /usr/share/nginx/html/series
+vi /usr/share/nginx/html/series/index.html
 
-### Step 4 — Update ALB DNS in index.html
+# Movies server
+mkdir /usr/share/nginx/html/movies
+vi /usr/share/nginx/html/movies/index.html
 
-After creating the ALB, copy its DNS name and update the nav links in `index.html`:
-
-```html
-<!-- Replace ALB_DNS_NAME with your actual ALB DNS -->
-<a href="http://ALB_DNS_NAME/trending">Trending</a>
-<a href="http://ALB_DNS_NAME/series">TV Series</a>
-<a href="http://ALB_DNS_NAME/movies">Movies</a>
-<a href="http://ALB_DNS_NAME/new">New Releases</a>
+# New server
+mkdir /usr/share/nginx/html/new
+vi /usr/share/nginx/html/new/index.html
 ```
 
 ### Step 5 — Create Target Groups
 
-For each service, create a Target Group:
-- Type: Instances
-- Protocol: HTTP, Port: 80
-- Health check path:
-  - Home: `/`
-  - Trending: `/trending`
-  - Series: `/series`
-  - Movies: `/movies`
-  - New: `/new`
-
-Register the correct EC2 in each TG.
+For each service:
+- Type: Instances, Protocol: HTTP, Port: 80
+- Health check paths: `/` , `/trending`, `/series`, `/movies`, `/new`
+- Register the correct EC2 in each TG
 
 ### Step 6 — Create Application Load Balancer
+- Scheme: Internet-facing
+- Select all 3 public subnets (one per AZ)
+- Listener: HTTP:80 → default action: tg-home
 
-1. Type: Application Load Balancer
-2. Scheme: Internet-facing
-3. Select both public subnets (different AZs)
-4. Add listener rules:
+### Step 7 — Add Path Rules to Listener
 
 | Condition | Action |
 |---|---|
-| path = `/trending` | Forward to TG-trending |
-| path = `/series` | Forward to TG-series |
-| path = `/movies` | Forward to TG-movies |
-| path = `/new` | Forward to TG-new |
-| Default | Forward to TG-home |
+| path = `/movies*` | Forward to tg-movies (100%) |
+| path = `/series*` | Forward to tg-series (100%) |
+| path = `/trending*` | Forward to tg-trending (100%) |
+| path = `/new*` | Forward to tg-new (100%) |
+| Default | Forward to tg-home (100%) |
+
+### Step 8 — Update ALB DNS in HTML
+
+Replace `ALB_DNS_NAME` in all HTML files with your actual ALB DNS, then redeploy.
+
+---
+
+## ⚠️ Important Notes
+
+- **Health check paths must match content directories** — if content is at `/trending`, health check path must be `/trending`, not `/`
+- **ALB path rules use wildcard** — use `/trending*` not `/trending/` to match both `/trending` and `/trending/`
+- **Default action = tg-home only** — do not add other TGs to the default action, only add them as path rules
+- **NAT Gateway costs ~$0.045/hr** — delete after lab to avoid charges
 
 ---
 
 ## 🧹 Cleanup Order
 
-To avoid charges, delete in this order:
-
 1. Load Balancer
 2. Target Groups
-3. EC2 Instances (all 5 + bastion)
+3. EC2 Instances (all 6)
 4. NAT Gateway
 5. Release Elastic IPs
 6. Security Groups
@@ -167,12 +209,12 @@ To avoid charges, delete in this order:
 
 ## 💡 Key Concepts Demonstrated
 
-- **Path-based routing** — one ALB, multiple services, each on its own server
-- **Private subnet deployment** — app servers have no public IP, only accessible via ALB
-- **Target Groups** — isolate which servers the LB can route to
-- **Health checks** — LB monitors each server independently
-- **Fault isolation** — if one server goes down, only that section is affected
-- **NAT Gateway** — private servers can reach the internet for installs without being exposed
+- **ALB path-based routing** — one LB, 5 services, each on dedicated server
+- **Private subnet deployment** — app servers have no public IP
+- **Target Groups** — isolate which servers receive traffic per path
+- **Health checks** — path-specific, not server-wide
+- **Fault isolation** — one service down doesn't affect others
+- **Regional NAT Gateway** — private servers reach internet for installs
 
 ---
 
@@ -180,15 +222,20 @@ To avoid charges, delete in this order:
 
 ```
 netflix-path-routing-aws/
-├── index.html          ← Homepage (TG-home)
+├── index.html              ← Homepage
 ├── trending/
-│   └── index.html      ← Trending (TG-trending)
+│   └── index.html          ← Trending Now
 ├── series/
-│   └── index.html      ← TV Series (TG-series)
+│   └── index.html          ← TV Series
 ├── movies/
-│   └── index.html      ← Movies (TG-movies)
-└── new/
-    └── index.html      ← New Releases (TG-new)
+│   └── index.html          ← Movies
+├── new/
+│   └── index.html          ← New Releases
+├── diagrams/
+│   └── Netflix-Path-Routing-AWS-v2.drawio.svg
+└── screenshots/
+    └── *.png
+
 ```
 
 ---
@@ -200,4 +247,4 @@ netflix-path-routing-aws/
 
 ---
 
-*Built during DevOps Bootcamp — Week 3*
+*Built during DevOps Bootcamp — Week 3 | Region: ap-south-1*
